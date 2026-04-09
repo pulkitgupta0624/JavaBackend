@@ -1,0 +1,29 @@
+👉 Spring Framework is a Java framework that helps you build applications easily by managing objects and their dependencies for you.
+
+🧠 In Simple Words
+Instead of you doing:
+
+Creating objects ❌
+Managing dependencies ❌
+Wiring everything manually ❌
+
+👉 Spring does it for you ✅
+
+Benefits:
+1. Loose coupling
+2. Boilerplate code
+3. Maintainability and scalable
+
+| Concept     | Role in Spring                  |
+| ----------- | ------------------------------- |
+| IoC         | Spring controls object creation |
+| DI          | Spring injects dependencies     |
+| Beans       | Objects managed by Spring       |
+| Annotations | Configure everything easily     |
+
+👉 Spring = NestJS (Java version 😄)
+
+Controllers → same
+Services → same
+DI → same
+

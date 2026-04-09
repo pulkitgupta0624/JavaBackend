@@ -1,0 +1,120 @@
+👉 Coupling = how much one class depends on another
+
+Tight coupling → strongly dependent (hard to change) ❌
+Loose coupling → less dependent (flexible, scalable) ✅
+
+Let’s zoom in on the problem:
+public class Tight.UserService {
+    Tight.NotificationService notificationService = new Tight.NotificationService();
+}
+
+# Our code is Tightly coupled
+
+🔥 Why this is Tight Coupling:
+1. Direct object creation
+- Tight.UserService itself creates Tight.NotificationService
+- It is hardcoded
+- No flexibility
+
+2. What if tomorrow you want:
+- EmailNotificationService?
+- SMSNotificationService?
+👉 You must modify Tight.UserService (bad)
+
+3. Hard to test
+You can’t easily mock or replace Tight.NotificationService
+
+
+# How to Make It Loosely Coupled
+
+We use abstraction + dependency injection
+
+Step 1: Create Interface
+public interface Tight.NotificationService {
+    void send(String message);
+}
+
+Step 2: Implement It
+public class EmailNotificationService implements Tight.NotificationService {
+    public void send(String message){
+        System.out.println("Email: " + message);
+    }
+}
+
+Step 3: Inject Dependency
+public class Tight.UserService {
+    private Tight.NotificationService notificationService;
+
+    public Tight.UserService(Tight.NotificationService notificationService){
+        this.notificationService = notificationService;
+    }
+
+    public void notifyUser(String message) {
+        notificationService.send(message);
+    }
+}
+
+Step 4: Main Class
+public class AppMain {
+    public static void main(String[] args){
+        Tight.NotificationService service = new EmailNotificationService();
+        Tight.UserService userService = new Tight.UserService(service);
+
+        userService.notifyUser("Order Placed!!");
+    }
+}
+
+🔥 Now This is Loose Coupling
+✅ Why this is better:
+
+- You can switch easily:
+new SmsNotificationService()
+new PushNotificationService()
+- No change in Tight.UserService ✔️
+- Easy testing ✔️
+- Scalable ✔️
+
+*******************************************************************************************
+
+💉 What is Dependency Injection (DI)?
+👉 Dependency Injection = giving a class what it needs from outside instead of letting it create it itself
+
+🧠 Break the word:
+Dependency → something a class needs to work
+Injection → providing it from outside
+
+👉 So:
+
+“Don’t create dependencies inside the class — inject them from outside.”
+
+- Your Original Code (WITHOUT DI)
+public class UserService {
+    NotificationService notificationService = new NotificationService();
+}
+❌ Problem:
+UserService is creating its dependency
+This leads to tight coupling
+
+✅ With Dependency Injection
+public class UserService {
+    private NotificationService notificationService;
+
+    public UserService(NotificationService notificationService){
+        this.notificationService = notificationService;
+    }
+}
+
+✔️ What changed?
+UserService is not creating
+It is receiving the dependency
+
+👉 That’s DI.
+
+🔥 Types of Dependency Injection (Important)
+1. Constructor Injection (Best ✅)
+public UserService(NotificationService notificationService)
+2. Setter Injection
+public void setNotificationService(NotificationService ns)
+3. Field Injection (used in Spring)
+@Autowired
+NotificationService notificationService;
