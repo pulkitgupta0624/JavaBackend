@@ -1,0 +1,146 @@
+🏷️ What are Annotations in Spring?
+👉 Annotations are special markers (metadata) you put on classes/methods to tell Spring what to do
+
+🧠 In Simple Words
+“Annotations = instructions for Spring”
+
+Instead of writing long XML configs ❌
+You just write:
+@Service
+
+👉 And Spring understands:
+“Oh, I need to create and manage this class as a bean”
+
+🔥 Why Annotations Exist
+
+Before annotations:
+- Lots of XML 😵
+- Hard to read
+- Hard to maintain
+
+After annotations:
+- Clean code ✅
+- Easy setup ✅
+- Faster development ✅
+
+🚀 Most Important Spring Annotations
+
+🫘 1. @Component
+👉 Basic annotation to create a bean
+
+@Component
+public class MyClass {}
+
+👉 Spring will:
+- Detect it
+- Create object
+- Manage it
+
+🧩 2. @Service
+@Service
+public class UserService {}
+
+👉 Same as @Component, but used for:
+Business logic layer
+
+🗄️ 3. @Repository
+@Repository
+public class UserRepository {}
+
+👉 Used for:
+- Database layer
+- JPA repositories
+
+🌐 4. @Controller / @RestController
+@RestController
+public class UserController {}
+
+👉 Used for:
+- Handling HTTP requests
+- Building APIs
+
+
+👉 These are all special types of @Component
+| Annotation  | Purpose        |
+| ----------- | -------------- |
+| @Component  | General        |
+| @Service    | Business logic |
+| @Repository | DB layer       |
+| @Controller | Web layer      |
+
+
+💉 5. @Autowired
+@Autowired
+private UserService userService;
+
+👉 Tells Spring:
+“Inject this dependency automatically”
+
+⚙️ 6. @Configuration
+@Configuration
+public class AppConfig {}
+
+👉 Used to define:
+Manual beans (@Bean)
+
+🏭 7. @Bean
+@Bean
+public NotificationService notificationService() {
+    return new NotificationService();
+}
+
+👉 Manually creates a bean
+
+
+Lifecycle of bean:
+
+🟢 1. Bean Creation
+Spring creates object:
+
+new LifecycleBean(...)
+
+👉 Constructor is called
+Constructor Called
+
+💉 2. Dependency Injection
+Spring injects dependencies:
+
+NotificationService → injected
+
+👉 Your object now has everything it needs
+
+⚙️ 3. Initialization Phase
+Spring calls init method:
+
+init()
+
+👉 Because you wrote:
+
+@Bean(initMethod = "init")
+Bean initialized
+
+
+✅ 4. Bean Ready (Usage Phase)
+Now bean is ready:
+
+lifecycleBean.performTask();
+Ready for use!
+
+👉 This is where your app actually uses the bean
+
+
+🔴 5. Destruction Phase
+When app shuts down:
+
+context.close();
+
+Spring calls:
+cleanup()
+cleanup() being called
+
+🎯 Full Flow (One View)
+1. Create Bean → Constructor
+2. Inject Dependencies
+3. Call init()
+4. Bean Ready (Use it)
+5. Call destroy() on shutdown
