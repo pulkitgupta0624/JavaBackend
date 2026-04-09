@@ -1,0 +1,130 @@
+👉 Spring Framework is a Java framework that helps you build applications easily by managing objects and their dependencies for you.
+
+🧠 In Simple Words
+Instead of you doing:
+
+Creating objects ❌
+Managing dependencies ❌
+Wiring everything manually ❌
+
+👉 Spring does it for you ✅
+
+Benefits:
+1. Loose coupling
+2. Boilerplate code
+3. Maintainability and scalable
+
+| Concept     | Role in Spring                  |
+| ----------- | ------------------------------- |
+| IoC         | Spring controls object creation |
+| DI          | Spring injects dependencies     |
+| Beans       | Objects managed by Spring       |
+| Annotations | Configure everything easily     |
+
+👉 Spring = NestJS (Java version 😄)
+
+Controllers → same
+Services → same
+DI → same
+
+SOME CONCEPTS OF SPRING FRAMEWORK:
+
+1. Bean:
+👉 A Bean = object managed by Spring
+
+Example:
+@Service
+public class UserService {}
+
+👉 UserService is now a Spring Bean
+
+2. Spring Container:
+👉 This is the brain of Spring
+It:
+- Creates beans
+- Injects dependencies
+- Manages lifecycle
+
+💡 Two types (just know names):
+BeanFactory (basic)
+ApplicationContext (advanced, used in Spring Boot)
+
+3. IoC (Inversion of Control):
+👉 Normally:
+UserService userService = new UserService();
+
+👉 With Spring:
+You don’t create objects
+Spring creates and manages them
+💡 Meaning:
+Control of object creation is shifted from you → to Spring
+
+🧠 Real idea:
+You say:
+“Spring, I need this class”
+
+Spring says:
+“Got it, I’ll create and manage it for you”
+
+4. Dependency Injection (DI):
+👉 Instead of:
+new NotificationService()
+
+👉 Spring does:
+@Autowired
+NotificationService notificationService;
+
+💡 Meaning:
+Spring injects required objects automatically
+
+
+Hame spring use karne ke liye pom.xml me dependency add karna padega mvnrepository.com se
+
+------------------------------------------------------------------------------------------------------
+
+🛠️ What are Build Tools?
+👉 Build tools are tools that automate the process of building your application
+
+Building a project includes:
+- Compiling code (Java → bytecode)
+- Managing dependencies (libraries like Spring, Hibernate)
+- Running tests
+- Packaging (JAR/WAR file)
+- Running the application
+
+👉 Doing all this manually = nightmare 😵
+👉 Build tools automate everything ✅
+
+⚙️ Popular Build Tools in Java
+1. Maven (Most Common)
+👉 Uses pom.xml
+
+Example:
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+✔️ Features:
+- Easy to understand
+- Huge ecosystem
+- Standard structure
+
+2. Gradle (Modern & Faster)
+👉 Uses build.gradle
+
+Example:
+implementation 'org.springframework.boot:spring-boot-starter-web'
+
+✔️ Features:
+- Faster than Maven
+- Less verbose
+- More flexible
+
+🔄 What Build Tools Actually Do (Flow)
+1. Read config file (pom.xml / build.gradle)
+2. Download dependencies
+3. Compile code
+4. Run tests
+5. Package into .jar
+6. Run app
