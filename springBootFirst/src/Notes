@@ -1,0 +1,404 @@
+👉 Spring Boot is a tool built on top of Spring that makes it fast and easy to create Spring applications.
+
+⚡ Spring Boot Solves This
+
+👉 With Spring Boot:
+- No XML ❌
+- Minimal configuration ✅
+- Built-in server (Tomcat) ✅
+- Ready-to-run app ✅
+
+🧩 What Spring Boot Gives You
+1. Auto Configuration
+👉 You don’t configure everything manually
+
+Example:
+spring.datasource.url=...
+
+👉 Spring Boot configures DB automatically
+
+2. Starter Dependencies
+Instead of adding many dependencies:
+
+spring-boot-starter-web
+
+👉 Adds everything needed for web apps
+
+3. Embedded Server
+👉 No need to install Tomcat separately
+Just run:
+mvn spring-boot:run
+
+4. Production Ready Features
+- Logging
+- Monitoring
+- Health checks
+
+🚀 What is @SpringBootApplication?
+👉 It’s a single annotation that combines 3 important annotations
+
+"It tells Spring Boot to start the app, scan components, and auto-configure everything.”
+
+It is combination of :
+1️. @Configuration = This class contains bean definitions
+
+2. @ComponentScan = Scan this package and sub-packages for beans
+So Spring finds:
+@Component
+@Service
+@Repository
+@Controller
+
+3. @EnableAutoConfiguration
+👉 Means:
+“Spring Boot automatically configures things for you”
+Example:
+Database config
+Web server
+JSON setup
+
+
+⚙️ What Happens When You Run This
+SpringApplication.run(DemoApplication.class, args);
+
+👉 Spring Boot:
+1. Starts Spring container
+2. Scans all components
+3. Creates beans
+4. Injects dependencies
+5. Applies auto-configuration
+6. Starts server (Tomcat)
+
+
+---------------------------------------------------------------------
+
+Q.1 What is starter dependencies and what is "opinionated setup" mean?
+Ans: Starter Dependencies : Pre-configured dependency bundles
+You add one dependency → Spring Boot automatically includes all required libraries
+📌 Example:
+spring-boot-starter-web
+→ includes:
+Spring MVC
+Jackson (JSON)
+Embedded Tomcat
+👉 No need to add everything manually
+
+Opinionated setup : Spring Boot decides default configurations for you
+You don’t need to configure everything — Spring Boot assumes best defaults
+📌 Example:
+Auto setup for server
+Default project structure
+Auto DB config
+
+Q.2 What is application.properties?
+Ans: A file where you configure your Spring Boot application
+
+Example:
+server.port=8081
+spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+spring.datasource.username=postgres
+spring.datasource.password=1234
+
+Q.3 What is application.yml?
+Ans: Same purpose as application.properties but having cleaner format
+
+Example:
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: postgres
+    password: 1234
+
+Q.4 What is CommandLineRunner?
+Ans: It is an interface that runs after Spring Boot starts
+
+Example:
+@Component
+public class MyRunner implements CommandLineRunner {
+
+    @Override
+    public void run(String... args) {
+        System.out.println("App started!");
+    }
+}
+
+Q.5 What is ApplicationRunner?
+Ans: Same purpose — runs after app starts but handles arguments differently
+
+Example:
+@Component
+public class MyRunner implements ApplicationRunner {
+
+    @Override
+    public void run(ApplicationArguments args) {
+        System.out.println("App started!");
+    }
+}
+
+| Feature     | CommandLineRunner | ApplicationRunner      |
+| ----------- | ----------------- | ---------------------- |
+| Arguments   | `String[] args`   | `ApplicationArguments` |
+| Flexibility | Basic             | More powerful          |
+
+
+*************************************************************************************
+
+Spring Boot me rest apis kese banti hai:
+
+1. @RestController
+@RestController
+public class UserController {
+}
+
+👉 Bolta hai:
+“Ye class API handle karegi”
+
+2. Endpoint (URL banana)
+@GetMapping("/hello")
+public String hello() {
+    return "Hello Bhai 😄";
+}
+
+👉 Browser me:
+http://localhost:8080/hello
+
+👉 Output:
+Hello Bhai 😄
+
+Full CRUD Example:
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping
+    public String getUsers() {
+        return "All users";
+    }
+
+    @PostMapping
+    public String createUser() {
+        return "User created";
+    }
+
+    @PutMapping("/{id}")
+    public String updateUser(@PathVariable int id) {
+        return "User updated " + id;
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable int id) {
+        return "User deleted " + id;
+    }
+}
+
+
+Important Concepts
+📌 @PathVariable
+@GetMapping("/users/{id}")
+👉 URL se data lena
+
+📌 @RequestParam
+@GetMapping("/users?name=Pulkit")
+
+📌 @RequestBody
+@PostMapping
+public User create(@RequestBody User user)
+👉 JSON → Java object
+
+
+Steps how api flows working in spring boot:
+
+1️. Client Request
+👉 Browser / Postman hit karta hai:
+GET /users
+
+2. Embedded Tomcat Server
+👉 Spring Boot ka built-in server (Tomcat) request receive karta hai
+Request → Tomcat
+
+3️. DispatcherServlet (MOST IMPORTANT 🔥)
+👉 Ye front controller hai (boss of Spring MVC)
+Tomcat → DispatcherServlet
+
+👉 Kaam:
+Decide karega request kahan bhejni hai
+
+4️. Handler Mapping
+👉 DispatcherServlet puchta hai:
+
+“Is URL /users ko kaun handle karega?”
+DispatcherServlet → HandlerMapping
+
+👉 Ye find karta hai:
+@GetMapping("/users")
+
+5️. Controller Call
+HandlerMapping → UserController
+👉 Controller method run hota hai
+
+@GetMapping("/users")
+public List<User> getUsers() {
+    return userService.getUsers();
+}
+
+6️. Service Layer
+Controller → Service
+👉 Business logic
+
+7️. Repository Layer
+Service → Repository
+👉 DB call
+
+8️. Database
+Repository → DB → data
+🔄 Response Flow Back
+DB → Repository → Service → Controller → DispatcherServlet → Tomcat → Client
+
+9️ JSON Conversion (IMPORTANT)
+👉 Controller jo return karta hai:
+return List<User>
+
+👉 Spring automatically convert karta hai → JSON (Jackson use karke)
+
+Client
+ ↓
+Tomcat
+ ↓
+DispatcherServlet
+ ↓
+HandlerMapping
+ ↓
+Controller
+ ↓
+Service
+ ↓
+Repository
+ ↓
+Database
+
+⬆ same path se response back
+
+***********************************************************************************
+
+Kuch annotations:
+
+1. @PathVariable
+👉 URL ke andar jo dynamic value hoti hai usko lene ke liye
+
+Example:
+@GetMapping("/users/{id}")
+public String getUser(@PathVariable int id) {
+    return "User id: " + id;
+}
+
+👉 Request:
+GET /users/10
+👉 Output:
+User id: 10
+
+2. @RequestParam
+👉 Query parameters (URL ke ? ke baad wale data)
+
+Example:
+@GetMapping("/users")
+public String getUser(@RequestParam String name) {
+    return "User: " + name;
+}
+
+👉 Request:
+GET /users?name=Pulkit
+👉 Output:
+User: Pulkit
+
+3. @RequestBody
+👉 Frontend se aane wala JSON → Java object
+
+Example:
+@PostMapping("/users")
+public User createUser(@RequestBody User user) {
+    return user;
+}
+
+👉 Request:
+{
+  "name": "Pulkit",
+  "email": "abc@gmail.com"
+}
+
+📌 4. @RequestHeader
+👉 HTTP headers se value lene ke liye
+
+Example:
+@GetMapping("/test")
+public String getHeader(@RequestHeader("User-Agent") String agent) {
+    return agent;
+}
+
+👉 Use:
+Auth tokens
+Metadata
+
+**************************************************************************************************
+
+1. Exception Handling Kya Hai?
+👉 Jab error aaye (user not found, etc.)
+→ Instead of manual if-else
+→ Exception throw karte hain
+
+👉 Aur ek jagah handle karte hain (global)
+
+2. Logging Kya Hai?
+👉 System.out.println ❌ (bad practice)
+👉 Proper logging use karo ✅
+
+Uses:
+- Debugging
+- Error tracking
+- Production monitoring
+
+
+STEP 1: Custom Exception Bana
+
+package puki.demo.springbootfirst;
+
+public class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException(String message) {
+        super(message);
+    }
+}
+
+
+STEP 2: Global Exception Handler
+
+package puki.demo.springbootfirst;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGeneral(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Something went wrong");
+    }
+}
+
+
+STEP 3: Logging Add Kar (IMPORTANT)
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+**************************************************************************************************
