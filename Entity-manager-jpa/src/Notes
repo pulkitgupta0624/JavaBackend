@@ -1,0 +1,58 @@
+🚀 JPA kya hota hai?
+👉 JPA = Java Persistence API
+
+🧠 Simple Samajh
+JPA ek specification (rules) hai jo batata hai
+-> Java objects ko database me kaise store karna hai
+
+⚠️ IMPORTANT
+👉 JPA khud kuch nahi karta ❌
+👉 Hibernate karta hai ✅
+
+- JPA = rules
+- Hibernate = implementation
+
+🔥 Real Relation
+JPA → Hibernate → JDBC → Database
+
+
+🧩 JPA ka kaam kya hai?
+👉 Tu object banata hai:
+
+User user = new User();
+user.setName("Pulkit");
+
+👉 JPA + Hibernate isko convert karta hai:
+INSERT INTO user ...
+
+⚙️ JPA me tu kya karta hai?
+1️. Entity banata hai:
+
+@Entity
+public class User {
+    @Id
+    private int id;
+    private String name;
+}
+
+👉 Ye table ban gaya automatically
+
+2️. Repository use karta hai
+
+public interface UserRepository extends JpaRepository<User, Integer> {
+}
+
+👉 Ab tu likh sakta hai:
+
+userRepository.save(user);
+userRepository.findAll();
+
+🔥 Internally kya hota hai?
+
+👉 Tu likhta hai:
+
+userRepository.save(user);
+
+👉 Hibernate karta hai:
+
+INSERT INTO user ...

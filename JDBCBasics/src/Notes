@@ -1,0 +1,63 @@
+JDBC = Java Database Connectivity
+Java se database (MySQL/Postgres) se baat karne ka tareeka
+
+PreparedStatement kya hota hai?
+👉 SQL query ko safe aur dynamic banane ka tareeka
+
+Tera current code (galat / risky)
+String sql = "INSERT INTO student (name, email) VALUES ('" + name + "', '" + email + "')";
+
+👉 Problem:
+- SQL Injection risk 😵
+- Unsafe
+- Performance bhi bekaar
+
+✅ Correct way (PreparedStatement)
+String sql = "INSERT INTO student (name, email) VALUES (?, ?)";
+
+PreparedStatement pstmt = conn.prepareStatement(sql);
+
+pstmt.setString(1, name);
+pstmt.setString(2, email);
+
+pstmt.executeUpdate();
+
+🧠 Samajh
+👉 ? = placeholder
+👉 setString() = value fill karna
+
+
+
+Transactions kya hota hai?
+👉 Multiple operations ko ek group me run karna
+
+🧠 Simple Example
+👉 Tu 2 kaam kar raha:
+1. User create
+2. Balance update
+
+👉 Agar:
+Step 1 success
+Step 2 fail
+👉 Toh pura system gadbad ❌
+
+🔥 Solution = Transaction
+👉 Either:
+dono kaam ho ✅
+ya dono cancel ❌
+
+Example:
+conn.setAutoCommit(false);
+
+try {
+    insertStudents(conn, "A", "a@gmail.com");
+    updateStudents(conn, 1, "B", "b@gmail.com");
+
+    conn.commit(); // sab successful
+} catch (Exception e) {
+    conn.rollback(); // sab cancel
+}
+
+commit() → save permanently
+rollback() → sab undo
+

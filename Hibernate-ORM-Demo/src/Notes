@@ -1,0 +1,181 @@
+🚀 ORM kya hota hai?
+👉 ORM = Object Relational Mapping
+
+🧠 Simple samajh
+👉 Database me data hota hai → tables me
+👉 Java me data hota hai → objects me
+
+👉 ORM = in dono ko connect karna
+
+🔥 Example
+
+Database table:
+id | name | email
+
+Java class:
+class User {
+    int id;
+    String name;
+    String email;
+}
+
+👉 ORM bolta hai:
+
+“Main table ko object me convert kar dunga”
+
+⚙️ Without ORM (JDBC)
+ResultSet rs = stmt.executeQuery("SELECT * FROM student");
+
+while(rs.next()) {
+    String name = rs.getString("name");
+}
+
+👉 Tu manually:
+- data read kar raha
+- mapping kar raha
+
+✅ With ORM
+List<User> users = userRepository.findAll();
+
+👉 Bas ek line
+👉 ORM sab handle karega
+
+
+🚀 Hibernate kya hai?
+👉 Hibernate = Java ka most popular ORM tool (Basically ek sexy ORM tool hai)
+
+🧠 Matlab
+👉 ORM = concept
+👉 Hibernate = us concept ka implementation
+
+🔥 Example
+Tu likhega:
+userRepository.save(user);
+
+👉 Hibernate internally karega:
+
+INSERT INTO user ...
+
+⚙️ Hibernate kya karta hai
+- SQL generate karta hai
+- DB se baat karta hai
+- Data ko object me convert karta hai
+- Relationships handle karta hai
+
+SIMPLE FLOW:
+Java Object → Hibernate → SQL → Database
+Database → Hibernate → Java Object
+
+| JDBC       | Hibernate  |
+| ---------- | ---------- |
+| Manual SQL | Automatic  |
+| Complex    | Easy       |
+| Low level  | High level |
+
+🧠 Real Samajh (Important)
+👉 Tu abhi JDBC kar raha hai
+👉 Hibernate bolta hai: “Tu logic likh, DB main sambhal lunga”
+
+
+*****************************************************************************************************
+
+🚀 ORM (Hibernate) vs Without ORM (JDBC)
+
+| Feature              | Without ORM (JDBC)          | With ORM (Hibernate)         |
+| -------------------- | --------------------------- | ---------------------------- |
+| Level                | Low-level                   | High-level                   |
+| SQL Writing          | Manual                      | Automatic (generated)        |
+| Code Length          | More (boilerplate)          | Less (clean)                 |
+| Data Mapping         | Manual (ResultSet → Object) | Automatic (Table ↔ Object)   |
+| Maintenance          | Hard                        | Easy                         |
+| Learning Curve       | Easy start, hard scale      | Slight start, easy scale     |
+| Performance Control  | Full control                | Less control (but optimized) |
+| Security             | Risky (SQL Injection)       | Safer                        |
+| Development Speed    | Slow                        | Fast                         |
+| Relationships (Join) | Manual SQL                  | Easy with annotations        |
+| Example              | `SELECT * FROM user`        | `userRepository.findAll()`   |
+| Focus                | DB-centric                  | Object-centric               |
+
+
+***************************************************************************************************
+
+🚀 Hibernate Architecture (Main Components)
+Java App → Session → Hibernate → JDBC → Database
+
+| Component      | Role                                   |
+| -------------- | -------------------------------------- |
+| Configuration  | Hibernate setup (DB config, mappings)  |
+| SessionFactory | Heavy object, creates Sessions         |
+| Session        | Main object → DB se interact karta hai |
+| Transaction    | DB operations ko control karta hai     |
+| Query          | HQL/SQL run karne ke liye              |
+| Entity         | Java class mapped to table             |
+| Cache          | Performance improve karta hai          |
+
+🔍 Ek-ek samajh le
+⚙️ 1. Configuration
+👉 Setup karta hai:
+- DB connection
+- Hibernate settings
+Configuration cfg = new Configuration().configure();
+
+
+🏭 2. SessionFactory
+👉 Heavy object
+👉 Ek hi baar banta hai
+SessionFactory factory = cfg.buildSessionFactory();
+
+👉 Kaam:
+Sessions banana
+
+
+🔄 3. Session (MOST IMPORTANT 🔥)
+👉 Ye hi real worker hai
+Session session = factory.openSession();
+
+👉 Kaam:
+- save()
+- get()
+- update()
+- delete()
+
+
+💸 4. Transaction
+👉 Safe execution ke liye
+
+Transaction tx = session.beginTransaction();
+tx.commit();
+
+👉 Ensure:
+sab ya kuch nahi (Atomicity)
+
+
+🔍 5. Query
+👉 Data fetch karne ke liye
+
+Query q = session.createQuery("from User");
+
+
+🧱 6. Entity
+👉 Java class = DB table
+
+@Entity
+class User {}
+
+
+⚡ 7. Cache
+👉 Performance improve karta hai
+👉 Repeated DB calls kam karta hai
+
+
+🔥 Flow Samajh (Important)
+1. Configuration load
+2. SessionFactory create
+3. Session open
+4. Transaction start
+5. Operation (save/get)
+6. Commit
+7. Session close
+
+🎯 One-Line Summary
+Hibernate uses Session to interact with DB, SessionFactory to create sessions, and Transaction to manage operations safely.
