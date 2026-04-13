@@ -1,0 +1,128 @@
+🚀 JPA Relationships kya hote hain?
+
+👉 Jab tables ek dusre se connected hote hain
+User → Orders
+
+👉 Ek user ke multiple orders ho sakte hain
+
+🧠 Simple Samajh
+Relationship = tables ke beech connection
+
+🔥 Types of Relationships
+1️. OneToOne
+👉 Ek user → ek profile
+
+@OneToOne
+private Profile profile;
+
+
+2️. OneToMany
+👉 Ek user → multiple orders
+
+@OneToMany(mappedBy = "user")
+private List<Order> orders;
+
+
+3️. ManyToOne
+👉 Multiple orders → ek user
+
+@ManyToOne
+@JoinColumn(name = "user_id")
+private User user;
+
+
+4️. ManyToMany
+👉 Students ↔ Courses
+
+@ManyToMany
+private List<Course> courses;
+
+
+🔥 MOST IMPORTANT (Real Example)
+
+🧩 User Entity
+@Entity
+public class User {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+}
+
+🧩 Order Entity
+@Entity
+public class Order {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String product;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+}
+
+🧠 Samajh kya hua?
+👉 DB me:
+
+- User table
+id | name
+
+- Order table
+id | product | user_id
+
+👉 user_id = foreign key
+
+⚡ mappedBy kya hota hai?
+@OneToMany(mappedBy = "user")
+
+👉 Bol raha:
+“Relation Order class me defined hai”
+
+🔥 Important Concept (OWNING SIDE)
+👉 @ManyToOne side = owner
+👉 wahi decide karta hai:
+
+foreign key kaha banegi
+🧠 Flow Samajh
+
+User → orders list
+Order → user reference
+
+⚡ Save Example
+User user = new User();
+user.setName("Pulkit");
+
+Order order = new Order();
+order.setProduct("Laptop");
+order.setUser(user);
+
+userRepository.save(user);
+orderRepository.save(order);
+
+
+🔥 Fetch Example
+User user = userRepository.findById(1L).get();
+System.out.println(user.getOrders());
+
+⚠️ Common Problems
+👉 Infinite loop (JSON me)
+👉 Lazy loading issue
+
+👉 Solution:
+@JsonIgnore
+
+
+🎯 Ultra Short Notes
+OneToOne → 1-1
+OneToMany → 1-many
+ManyToOne → many-1
+ManyToMany → many-many
+
