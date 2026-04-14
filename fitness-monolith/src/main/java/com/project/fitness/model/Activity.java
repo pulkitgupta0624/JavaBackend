@@ -32,7 +32,7 @@ public class Activity {
     private User user;
 
     @Enumerated(EnumType.STRING)
-    private ActivityType activityType;
+    private ActivityType type;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
