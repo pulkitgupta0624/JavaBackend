@@ -51,4 +51,8 @@ public class Activity {
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Recommendation> recommendations = new ArrayList<>();
+
+    public Map<String, Object> getAdditionalMetrics() {
+        return Map.of();
+    }
 }

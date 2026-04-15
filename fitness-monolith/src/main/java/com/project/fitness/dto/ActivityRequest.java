@@ -13,8 +13,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class ActivityRequest {
     private String userId;
-    private ActivityType activityType;
-    private Map<String, Object> activityMetrics;
+    private ActivityType type;
+    private Map<String, Object> additionalMetrics;
     private Integer duration;
     private Integer caloriesBurned;
     private LocalDateTime startTime;
